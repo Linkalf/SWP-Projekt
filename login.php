@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="password" id="password" name="password" required>
             </div>
             <div class="form-group">
-                <button type="submit">Anmelden</button>
+                <button type="submit" onclick="window.location.href='liste.php'">Anmelden</button>
             </div>
         </form>
     </div>
