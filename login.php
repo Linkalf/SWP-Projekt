@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($username === "admin" && $password === "password123") {
         $_SESSION['loggedin'] = true;
         $_SESSION['username'] = $username;
-        header("Location: liste.php");
+        header("Location: startseite.php");
         exit;
     } else {
         $error = "Ungültiger Benutzername oder Passwort";
