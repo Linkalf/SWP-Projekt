@@ -13,6 +13,8 @@
 <header>
         <a href="liste.php" class="center-link">Gamespace-Spieleliste</a>
 
+        <a href="spielmelden.php" class="center-link">Gamespace-Spiele melden</a>
+
     
     
     <select name="konto" id="konto" onchange="window.location.href=this.value">
