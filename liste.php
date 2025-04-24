@@ -1,5 +1,16 @@
 <?php
+session_start();
+require_once("dbconnection.php");
 
+try {
+
+    $sql = "SELECT * FROM games";
+    $stmt = $pdo->query($sql);
+
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("keine spiele gefunden");
+}
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -59,27 +70,41 @@
 </head>
 <body>
 
+<header>
+        <a href="liste.php" class="center-link">Gamespace-Spieleliste</a>
+
+        <a href="spielmelden.php" class="center-link">Gamespace-Spiele melden</a>
+
+    
+    
+    <select name="konto" id="konto" onchange="window.location.href=this.value">
+        <option value="" disabled selected hidden>Konto</option>
+        <option value="registrieren.php">Registrieren</option>
+        <option value="login.php">Login</option>
+        <option value="logout.php">Logout</option>
+    </select>
+</header>
+
 <div class="header">
   <h1 class="headertext">Gamespace-Spieleliste</h1>
 </div>
 
     
-    <?php include('header.php'); ?>
     <?php 
-        if(isset($_SESSION ['bname'])){
+        /*if(isset($_SESSION ['sname'])){
             echo '<h1>Willkommen, ' . $_SESSION('username') . '!</h1>';
-        }else {
+        }else {*/
             echo '<h1>Willkommen!</h1>';
-        }
+        //}
     ?>
     <h1>Alle Spiele: </h1>
 
     <?php if (count($results) > 0): ?>
         <?php foreach ($results as $row): ?>
 
-            <h3><?php echo(htmlspecialchars($row['name'])); ?></h3>
-            <h3><?php echo(htmlspecialchars($row['entwickler'])); ?></h3>
-            <h3><?php echo(htmlspecialchars($row['release'])); ?></h3>
+            <h3>
+            <?php echo htmlspecialchars($row['sname']) . ' - ' . htmlspecialchars($row['entwickler']) . ' - ' . htmlspecialchars($row['releasedate']); ?>
+            </h3>
 
         <?php endforeach; ?>
     <?php else: ?>
