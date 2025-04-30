@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['username'] = $username;
         header("Location: startseite.php");
         exit;
-    } else {
+    } else { 
         $error = "Ungültiger Benutzername oder Passwort";
     }
 } else {
