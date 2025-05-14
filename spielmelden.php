@@ -1,5 +1,6 @@
 <?php
 
+
 if (isset($_POST['submit'])) {
     
     if (!empty($_POST['sname']) && !empty($_POST['entwickler']) && !empty($_POST['releasedate'])) {
@@ -8,22 +9,43 @@ if (isset($_POST['submit'])) {
         $sname = htmlspecialchars($_POST['sname']);
         $entwickler = htmlspecialchars($_POST['entwickler']);
         $releasedate = htmlspecialchars($_POST['releasedate']);
+
+        $cover_name = $_FILES['cover']['name'];
+        $cover_type = $_FILES['cover']['type'];
+        $cover_size = $_FILES['cover']['size'];
+        $cover_tmp_name = $_FILES['cover']['tmp_name'];
+
+    }
+
+        if (($cover_type == 'image/jpeg' || $cover_type == 'image/png' || $cover_type == 'image/gif') &&
+            ($cover_size > 0 && $cover_size < MAXDATEIGROESSE)) {
+
+            $ziel = ORDNER . $cover_name;
+
+            if (move_uploaded_file($cover_tmp_name, $ziel)) {
+
+                //Datei wurde in den Zielordner am Webserver verschoben. Jetzt kann der Eintrag in die DB geschrieben werden
                 try {
 
                     require_once("dbconnection.php");
         
-                    $stmt = $pdo->prepare("INSERT INTO games (sname,entwickler,releasedate) VALUES (:sname, :entwickler, :releasedate)");
+                    $stmt = $pdo->prepare("INSERT INTO games (sname,entwickler,releasedate,cover) VALUES (:sname, :entwickler, :releasedate, :cover)");
         
                     $stmt->bindParam(":sname", $sname);
                     $stmt->bindParam(":entwickler", $entwickler);
                     $stmt->bindParam(":releasedate", $releasedate);
+                    $stmt->bindParam(":cover", $ziel);
 
 
                     $stmt->execute();
-
+                    
                 } catch (PDOException $e) {
+                    if (file_exists($ziel)) {
+                        unlink($ziel);
+                    }
                     die("Das Insert Into ist falsch");
                 }
+            }
             }  
 } else {
     ?>
@@ -158,6 +180,8 @@ if (isset($_POST['submit'])) {
        
         <label for="releasedate">Release Date:</label><br>
         <input class="ttmmjj" type="date" id="releasedate" name="releasedate" required><br><br>
+
+        <input type="file" id="cover" name="cover" required><br>
         
 
         <button type="submit" id="submit" name="submit">Spiel melden 

@@ -66,6 +66,43 @@ try {
             font-size: 100px;
         }
 
+        img {
+        border-radius: 8px;
+        box-shadow: 0 0 10px #888;
+        margin-bottom: 20px;
+        }
+
+
+        .spiel-eintrag {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    background-color: #222;
+    padding: 8px 12px;
+    border-radius: 10px;
+    max-width: 600px;
+    height: 100px; /* feste Höhe für alles */
+    box-shadow: 0 0 5px rgba(255,255,255,0.1);
+}
+
+.spiel-infos {
+    flex: 1;
+    color: white;
+    font-size: 16px;
+    padding-right: 10px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.spiel-cover img {
+    height: 80px;
+    width: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 0 5px #111;
+}
+
     </style>
 </head>
 <body>
@@ -102,9 +139,19 @@ try {
     <?php if (count($results) > 0): ?>
         <?php foreach ($results as $row): ?>
 
-            <h3>
+            <div class="spiel-eintrag">
+    <div class="spiel-infos">
+        <span class="spiel-text">
             <?php echo htmlspecialchars($row['sname']) . ' - ' . htmlspecialchars($row['entwickler']) . ' - ' . htmlspecialchars($row['releasedate']); ?>
-            </h3>
+        </span>
+    </div>
+    <?php if (!empty($row['cover'])): ?>
+        <div class="spiel-cover">
+            <img src="<?php echo htmlspecialchars($row['cover']); ?>" alt="Cover von <?php echo htmlspecialchars($row['sname']); ?>">
+        </div>
+    <?php endif; ?>
+</div>
+
 
         <?php endforeach; ?>
     <?php else: ?>
