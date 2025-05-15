@@ -12,20 +12,14 @@
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
-            background: linear-gradient(to right, #000000, #111111);
-            background-image: repeating-linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0.1),
-                rgba(255, 255, 255, 0.1) 1px,
-                transparent 1px,
-                transparent 30px
-            );
+            background-image: url(bilder/wp_startseite.jpg);
+            background-size: 100%;
             color: white;
         }
 
         header {
             width: auto; 
-            height: 220px;
+            height: 120px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -33,6 +27,7 @@
             background: linear-gradient(0deg, #000, #333);
             padding: 20px 40px;
             border-bottom: 2px solid #0f0;
+            margin-left: -20px;
         }
 
         header:before,
@@ -86,10 +81,24 @@
         }
 
         h1 {
-            color:black;
+            color:white;
             text-align: center;
             margin-top: 100px;
             font-size: 48px;
+        }
+
+        .site{
+
+        }
+
+        img{        
+            float: left;
+            border-radius: 25px;
+            margin: 15px;
+        }
+
+        .topagamespics{
+            margin-left: 25px;
         }
     </style>
 </head>
@@ -98,19 +107,45 @@
 <header>
     <a href="liste.php" class="center-link">Gamespace-Spieleliste</a>
 
-        <a href="spielmelden.php" class="center-link">Gamespace-Spiele melden</a>
+        <a href="spielmelden.php" class="center-link" style="margin-left: -30px;">Gamespace-Spiele melden</a>
 
     
     
     <select name="konto" id="konto" onchange="window.location.href=this.value">
-        <option value="" disabled selected hidden>Konto</option>
+        <option value="" disabled selected hidden >Konto</option>
         <option value="registrieren.php">Registrieren</option>
         <option value="login.php">Login</option>
         <option value="logout.php">Logout</option>
     </select>
 </header>
 
-<h1>Gamespace - Startseite</h1>
+<div class="site">
+    <h1>Gamespace - Startseite</h1>
+</div>
+
+<div class="topagmesheader" style="text-align: center;"> neue Spiele für 2025</div>
+<div class="topagamespics">
+    <img src="/bilder/st_doom.png">
+    <img src="/bilder/st_sf.png">
+    <img src="/bilder/st_exp33.png">
+    <img src="/bilder/st_kcd2.png">
+    <img src="/bilder/st_acs.png">
+    <img src="/bilder/st_sc1.png">
+    <img src="/bilder/st_eso.png">
+    <img src="/bilder/st_repo.png">
+</div>
+
+<div class="topagamespics">
+    <img src="/bilder/st_mhw.png">
+    <img src="/bilder/st_lr.png">
+    <img src="/bilder/st_tfb.png">
+    <img src="/bilder/st_rotsp.png">
+    <img src="/bilder/st_som.png">
+    <img src="/bilder/st_yaku.png">
+    <img src="/bilder/st_avow.png">
+    <img src="/bilder/st_civi.png">
+</div>
+
 
 </body>
 </html>
