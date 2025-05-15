@@ -3,7 +3,7 @@ session_start();
 require_once("dbconnection.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
+    $username = $_POST['bname'];
     $password = $_POST['password'];
     $email = $_POST['email'];
     
@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     try {
         // Überprüfen ob Benutzer bereits existiert
-        $check_sql = "SELECT * FROM users WHERE username = ?";
+        $check_sql = "SELECT * FROM user WHERE bname = ?";
         $check_stmt = $pdo->prepare($check_sql);
         $check_stmt->execute([$username]);
         
@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $error = "Benutzername existiert bereits";
         } else {
             // Neuen Benutzer einfügen
-            $sql = "INSERT INTO users (username, password, email) VALUES (?, ?, ?)";
+            $sql = "INSERT INTO user (bname, password, email) VALUES (?, ?, ?)";
             $stmt = $pdo->prepare($sql);
             $stmt->execute([$username, $hashed_password, $email]);
             
@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <form method="POST" action="">
             <div>
                 <label for="username">Benutzername:</label><br>
-                <input type="text" id="username" name="username" required>
+                <input type="text" id="bname" name="bname" required>
             </div>
             <div>
                 <label for="email">E-Mail:</label><br>

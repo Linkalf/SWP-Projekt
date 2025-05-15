@@ -1,21 +1,30 @@
 <?php
+require_once("dbconnection.php");
 session_start();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-    
-    // Hier sollte die Validierung gegen eine Datenbank erfolgen
-    // Dies ist nur ein Beispiel - in der Praxis sollten Passwörter gehasht sein
-    if ($username === "admin" && $password === "password123") {
-        $_SESSION['loggedin'] = true;
+try {
+    require('dbconnection.php');
+
+    $stmt = $pdo->prepare("SELECT * FROM user WHERE bname = :bname");
+    $stmt->bindParam(':bname', $username);
+    $stmt->execute();
+
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($user && password_verify($password, $user['passwarod'])) {
+        $_SESSION['login'] = true;
         $_SESSION['username'] = $username;
-        header("Location: startseite.php");
-        exit;
-    } else { 
-        $error = "Ungültiger Benutzername oder Passwort";
+        header('Location: startseite.php');
+        exit();
+    } else {
+        echo('Benutzername oder Passwort falsch');
     }
-} else {
+} catch (PDOException $e) {
+    die('Fehler beim Anmelden');
+}
+ else {
+echo('Bitte alle Felder ausfüllen');
+}
+else {
     ?>
     
     <!DOCTYPE html>
