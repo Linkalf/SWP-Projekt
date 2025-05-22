@@ -14,6 +14,7 @@ try {
 ?>
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,14 +22,13 @@ try {
 
 
     <style>
-
-        body{ 
+        body {
             background-color: black;
             color: white
-            }
+        }
 
         .header {
-            width: 1300px; 
+            width: 1300px;
             height: 220px;
             margin: 50px auto;
             background: linear-gradient(0deg, #000, #333);
@@ -39,11 +39,11 @@ try {
         .header:after {
             content: "";
             position: absolute;
-            background: linear-gradient(45deg, red, orange, yellow, 
-            green, blue, indigo, violet);
+            background: linear-gradient(45deg, red, orange, yellow,
+                    green, blue, indigo, violet);
             z-index: -1;
             width: calc(100% + 4px);
-            height: calc(100% + 4px);  
+            height: calc(100% + 4px);
             top: -2px;
             left: -2px;
             background-size: 500%;
@@ -55,108 +55,187 @@ try {
         }
 
         @keyframes wandernderFarbverlauf {
-            0%   { background-position: 0 0 }
-            50%  { background-position: 500% 0 }
-            100% { background-position: 0 0 }
+            0% {
+                background-position: 0 0
+            }
+
+            50% {
+                background-position: 500% 0
+            }
+
+            100% {
+                background-position: 0 0
+            }
         }
 
-        .headertext{
+        .headertext {
             text-align: center;
             padding-top: 50px;
             font-size: 100px;
         }
 
         img {
-        border-radius: 8px;
-        box-shadow: 0 0 10px #888;
-        margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px #888;
+            margin-bottom: 20px;
         }
 
 
         .spiel-eintrag {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    background-color: #222;
-    padding: 8px 12px;
-    border-radius: 10px;
-    max-width: 600px;
-    height: 100px; /* feste Höhe für alles */
-    box-shadow: 0 0 5px rgba(255,255,255,0.1);
-}
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            background-color: #222;
+            padding: 8px 12px;
+            border-radius: 10px;
+            max-width: 600px;
+            height: 100px;
+            /* feste Höhe für alles */
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+        }
 
-.spiel-infos {
-    flex: 1;
-    color: white;
-    font-size: 16px;
-    padding-right: 10px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
+        .spiel-infos {
+            flex: 1;
+            color: white;
+            font-size: 16px;
+            padding-right: 10px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
 
-.spiel-cover img {
-    height: 80px;
-    width: 80px;
-    object-fit: cover;
-    border-radius: 8px;
-    box-shadow: 0 0 5px #111;
-}
+        .spiel-cover img {
+            height: 80px;
+            width: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 0 5px #111;
+        }
 
+        .star-button {
+            font-size: 30px;
+            background: none;
+            border: none;
+            color: gold;
+            cursor: pointer;
+            margin-left: 10px;
+        }
     </style>
 </head>
+
 <body>
 
-<header>
+    <header>
         <a href="liste.php" class="center-link">Gamespace-Spieleliste</a>
 
         <a href="spielmelden.php" class="center-link">Gamespace-Spiele melden</a>
 
-    
-    
-    <select name="konto" id="konto" onchange="window.location.href=this.value">
-        <option value="" disabled selected hidden>Konto</option>
-        <option value="registrieren.php">Registrieren</option>
-        <option value="login.php">Login</option>
-        <option value="logout.php">Logout</option>
-    </select>
-</header>
 
-<div class="header">
-  <h1 class="headertext">Gamespace-Spieleliste</h1>
-</div>
 
-    
-    <?php 
-        /*if(isset($_SESSION ['sname'])){
-            echo '<h1>Willkommen, ' . $_SESSION('username') . '!</h1>';
-        }else {*/
-            echo '<h1>Willkommen!</h1>';
-        //}
+        <select name="konto" id="konto" onchange="window.location.href=this.value">
+            <option value="" disabled selected hidden>Konto</option>
+            <option value="registrieren.php">Registrieren</option>
+            <option value="login.php">Login</option>
+            <option value="logout.php">Logout</option>
+        </select>
+    </header>
+
+    <div class="header">
+        <h1 class="headertext">Gamespace-Spieleliste</h1>
+    </div>
+
+
+    <?php
+    /*if(isset($_SESSION ['sname'])){
+        echo '<h1>Willkommen, ' . $_SESSION('username') . '!</h1>';
+    }else {*/
+    echo '<h1>Willkommen!</h1>';
+    //}
     ?>
     <h1>Alle Spiele: </h1>
 
     <?php if (count($results) > 0): ?>
-        <?php foreach ($results as $row): ?>
 
-            <div class="spiel-eintrag">
-    <div class="spiel-infos">
-        <span class="spiel-text">
-            <?php echo htmlspecialchars($row['sname']) . ' - ' . htmlspecialchars($row['entwickler']) . ' - ' . htmlspecialchars($row['releasedate']); ?>
-        </span>
-    </div>
-    <?php if (!empty($row['cover'])): ?>
-        <div class="spiel-cover">
-            <img src="<?php echo htmlspecialchars($row['cover']); ?>" alt="Cover von <?php echo htmlspecialchars($row['sname']); ?>">
+
+
+
+<?php foreach ($results as $row): ?>
+    <?php
+        $isFavorite = false;
+        $favoriteCount = 0;
+
+        if (isset($_SESSION['user_id'])) {
+            $checkSql = "SELECT * FROM favoriten WHERE user_id = ? AND game_id = ?";
+            $checkStmt = $pdo->prepare($checkSql);
+            $checkStmt->execute([$_SESSION['user_id'], $row['id']]);
+            $isFavorite = $checkStmt->rowCount() > 0;
+        }
+
+        $countStmt = $pdo->prepare("SELECT COUNT(*) FROM favoriten WHERE game_id = ?");
+        $countStmt->execute([$row['id']]);
+        $favoriteCount = $countStmt->fetchColumn();
+    ?>
+    
+    <div class="spiel-eintrag">
+        <div class="spiel-infos">
+            <span class="spiel-text">
+                <?php echo htmlspecialchars($row['sname']) . ' - ' . htmlspecialchars($row['entwickler']) . ' - ' . htmlspecialchars($row['releasedate']); ?>
+            </span>
+            <br>
+            <button class="star-button" data-gameid="<?php echo $row['id']; ?>">
+                <?php echo $isFavorite ? '★' : '☆'; ?>
+            </button>
+            <span class="favorite-count" id="count-<?php echo $row['id']; ?>">
+                <?php echo $favoriteCount; ?> Nutzer
+            </span>
         </div>
-    <?php endif; ?>
-</div>
 
+        <?php if (!empty($row['cover'])): ?>
+            <div class="spiel-cover">
+                <img src="<?php echo htmlspecialchars($row['cover']); ?>" alt="Cover von <?php echo htmlspecialchars($row['sname']); ?>">
+            </div>
+        <?php endif; ?>
+    </div>
 
-        <?php endforeach; ?>
+<?php endforeach; ?>
+
     <?php else: ?>
         <p>Noch keine Spiele gefunden</p>
     <?php endif; ?>
 
+    <script>
+        document.querySelectorAll('.star-button').forEach(button => {
+            button.addEventListener('click', function () {
+                const gameId = this.getAttribute('data-gameid');
+                fetch('toggle_favorite.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: 'game_id=' + gameId
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'added') {
+                            this.textContent = '★';
+                        } else if (data.status === 'removed') {
+                            this.textContent = '☆';
+                        } else {
+                            alert('Fehler: ' + data.status);
+                        }
+
+                        // Zähle aktualisieren
+                        const countSpan = document.getElementById('count-' + gameId);
+                        if (countSpan) {
+                            countSpan.textContent = data.count + ' Nutzer';
+                        }
+                    });
+            });
+        });
+
+    </script>
+
+
 </body>
+
 </html>
