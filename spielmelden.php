@@ -1,5 +1,5 @@
 <?php
-
+require_once("appKonstanten.php");
 
 if (isset($_POST['submit'])) {
     

@@ -125,25 +125,25 @@
 
 <div class="topagmesheader" style="text-align: center;"> neue Spiele für 2025</div>
 <div class="topagamespics">
-    <img src="/bilder/st_doom.png">
-    <img src="/bilder/st_sf.png">
-    <img src="/bilder/st_exp33.png">
-    <img src="/bilder/st_kcd2.png">
-    <img src="/bilder/st_acs.png">
-    <img src="/bilder/st_sc1.png">
-    <img src="/bilder/st_eso.png">
-    <img src="/bilder/st_repo.png">
+    <img src="bilder/st_doom.png">
+    <img src="bilder/st_sf.png">
+    <img src="bilder/st_exp33.png">
+    <img src="bilder/st_kcd2.png">
+    <img src="bilder/st_acs.png">
+    <img src="bilder/st_sc1.png">
+    <img src="bilder/st_eso.png">
+    <img src="bilder/st_repo.png">
 </div>
 
 <div class="topagamespics">
-    <img src="/bilder/st_mhw.png">
-    <img src="/bilder/st_lr.png">
-    <img src="/bilder/st_tfb.png">
-    <img src="/bilder/st_rotsp.png">
-    <img src="/bilder/st_som.png">
-    <img src="/bilder/st_yaku.png">
-    <img src="/bilder/st_avow.png">
-    <img src="/bilder/st_civi.png">
+    <img src="bilder/st_mhw.png">
+    <img src="bilder/st_lr.png">
+    <img src="bilder/st_tfb.png">
+    <img src="bilder/st_rotsp.png">
+    <img src="bilder/st_som.png">
+    <img src="bilder/st_yaku.png">
+    <img src="bilder/st_avow.png">
+    <img src="bilder/st_civi.png">
 </div>
 
 
