@@ -6,4 +6,5 @@ try {
 } catch (PDOException $e) {
     die("Fehler beim Verbindungsaufbau mit der Datenbank");
 }
+
 ?>
