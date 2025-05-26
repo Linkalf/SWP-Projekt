@@ -1,29 +1,45 @@
 <?php
-require_once("dbconnection.php");
-session_start();
 
-try {
-    require('dbconnection.php');
-
-    if(isset($_POST["submit"])){
-        $stmt = $pdo->prepare("SELECT * FROM user WHERE bname = :bname");
-        $stmt->bindParam(':bname', $_POST["username"]);
-        $stmt->execute();
-
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($user && password_verify($_POST["password"], $user['password'])) {
-            $_SESSION['login'] = true;
-            $_SESSION['username'] = $username;
-            header('Location: startseite.php');
-            exit();
-        } 
-    }
-} catch (PDOException $e) {
-    die('Fehler beim Anmelden');
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
 }
+if (isset($_POST['submit'])) {
+    if (!empty($_POST['bname']) && !empty($_POST['password'])) {
+        $bname = htmlspecialchars($_POST['bname']);
+        $bname = trim($bname);
+        $password = htmlspecialchars($_POST['password']);
 
-    ?>
-    
+        try {
+            require_once('dbconnection.php');
+
+            $stmt = $pdo->prepare("SELECT * FROM user WHERE bname = :bname");
+            $stmt->bindParam(':bname', $bname);
+            $stmt->execute();
+
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($user) {
+                if (password_verify($password, $user['password'])) {
+                    $_SESSION['bname'] = $bname;
+                    header('Location: startseite.php');
+                    exit();
+                } else {
+                    echo('Falsches Passwort');
+                }
+            } else {
+                echo('bname nicht gefunden');
+            }
+        } catch (PDOException $e) {
+            die('Fehler beim Anmelden'. $e->getMessage());
+        }
+    } else {
+        echo('Bitte alle Felder ausfüllen');
+    }
+} else {
+?>
+
+
+<?php
+}?>
     <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -138,15 +154,15 @@ try {
         <?php endif; ?>
         <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
             <div class="form-group">
-                <label for="username">Benutzername:</label>
-                <input type="text" id="username" name="username" required>
+                <label for="bname">username:</label>
+                <input type="text" id="username" name="bname" required>
             </div>
             <div class="form-group">
                 <label for="password">Passwort:</label>
                 <input type="password" id="password" name="password" required>
             </div>
             <div class="form-group">
-                <button type="submit" value = "submit" name="submit">Anmelden</button>
+                <button type="submit" name="submit" id="submit">Anmelden</button>
             </div>
         </form>
     </div>
