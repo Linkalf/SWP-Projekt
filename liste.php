@@ -18,115 +18,134 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Satrtseite</title>
+    <title>Spieleliste</title>
+
+        <style>
 
 
-    <style>
+
+
         body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
             background-color: black;
-            color: white
+            color: white;
         }
 
-        .header {
-            width: 1300px;
-            height: 220px;
-            margin: 50px auto;
-            background: linear-gradient(0deg, #000, #333);
+
+        header {
+            width: auto;
+            height: 120px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             position: relative;
+            background: linear-gradient(0deg, #000, #333);
+            padding: 20px 40px;
+            border-bottom: 2px solid #0f0;
+            margin-left: -20px;
         }
 
-        .header:before,
-        .header:after {
+        header:before,
+        header:after {
             content: "";
             position: absolute;
-            background: linear-gradient(45deg, red, orange, yellow,
-                    green, blue, indigo, violet);
+            background: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet);
             z-index: -1;
             width: calc(100% + 4px);
             height: calc(100% + 4px);
+            background-size: 500%;
             top: -2px;
             left: -2px;
-            background-size: 500%;
             animation: wandernderFarbverlauf 30s linear infinite;
         }
 
-        .header:after {
+        header:after {
             filter: blur(25px);
         }
 
         @keyframes wandernderFarbverlauf {
-            0% {
-                background-position: 0 0
-            }
-
-            50% {
-                background-position: 500% 0
-            }
-
-            100% {
-                background-position: 0 0
-            }
+            0% { background-position: 0 0 }
+            50% { background-position: 500% 0 }
+            100% { background-position: 0 0 }
         }
 
-        .headertext {
+        .center-link {
+            color: #0f0;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .center-link:hover {
+            text-decoration: underline;
+        }
+
+        select {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
+            background-color: #222;
+            color: white;
+        }
+
+        h1 {
+            color: white;
             text-align: center;
-            padding-top: 50px;
-            font-size: 100px;
+            margin-top: 30px;
         }
-
-        img {
-            border-radius: 8px;
-            box-shadow: 0 0 10px #888;
-            margin-bottom: 20px;
-        }
-
 
         .spiel-eintrag {
             display: flex;
             align-items: center;
-            margin-bottom: 10px;
+            margin: 20px auto;
             background-color: #222;
-            padding: 8px 12px;
-            border-radius: 10px;
-            max-width: 600px;
-            height: 100px;
-            /* feste Höhe für alles */
-            box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 12px;
+            max-width: 800px;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.1);
         }
 
         .spiel-infos {
             flex: 1;
-            color: white;
             font-size: 16px;
-            padding-right: 10px;
+            color: white;
             overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
         }
 
         .spiel-cover img {
             height: 80px;
             width: 80px;
             object-fit: cover;
-            border-radius: 8px;
-            box-shadow: 0 0 5px #111;
+            border-radius: 12px;
+            margin-left: 15px;
+            box-shadow: 0 0 8px #0f0;
         }
 
         .star-button {
-            font-size: 30px;
+            font-size: 24px;
             background: none;
             border: none;
             color: gold;
             cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .favorite-count {
+            font-size: 14px;
             margin-left: 10px;
+            color: #ccc;
         }
     </style>
+
 </head>
 
 <body>
 
     <header>
-        <a href="liste.php" class="center-link">Gamespace-Spieleliste</a>
+        <a href="startseite.php" class="center-link">Gamespace-Startseite</a>
 
         <a href="spielmelden.php" class="center-link">Gamespace-Spiele melden</a>
 

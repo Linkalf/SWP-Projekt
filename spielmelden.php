@@ -17,178 +17,219 @@ if (isset($_POST['submit'])) {
 
     }
 
-        if (($cover_type == 'image/jpeg' || $cover_type == 'image/png' || $cover_type == 'image/gif') &&
-            ($cover_size > 0 && $cover_size < MAXDATEIGROESSE)) {
+    if (($cover_type == 'image/jpeg' || $cover_type == 'image/png' || $cover_type == 'image/gif') &&
+        ($cover_size > 0 && $cover_size < MAXDATEIGROESSE)) {
 
-            $ziel = ORDNER . $cover_name;
+        $ziel = ORDNER . $cover_name;
 
-            if (move_uploaded_file($cover_tmp_name, $ziel)) {
+        if (move_uploaded_file($cover_tmp_name, $ziel)) {
 
-                //Datei wurde in den Zielordner am Webserver verschoben. Jetzt kann der Eintrag in die DB geschrieben werden
-                try {
+            try {
 
-                    require_once("dbconnection.php");
-        
-                    $stmt = $pdo->prepare("INSERT INTO games (sname,entwickler,releasedate,cover) VALUES (:sname, :entwickler, :releasedate, :cover)");
-        
-                    $stmt->bindParam(":sname", $sname);
-                    $stmt->bindParam(":entwickler", $entwickler);
-                    $stmt->bindParam(":releasedate", $releasedate);
-                    $stmt->bindParam(":cover", $ziel);
+                require_once("dbconnection.php");
 
+                $stmt = $pdo->prepare("INSERT INTO games (sname, entwickler, releasedate, cover) VALUES (:sname, :entwickler, :releasedate, :cover)");
 
-                    $stmt->execute();
-                    
-                } catch (PDOException $e) {
-                    if (file_exists($ziel)) {
-                        unlink($ziel);
-                    }
-                    die("Das Insert Into ist falsch");
+                $stmt->bindParam(":sname", $sname);
+                $stmt->bindParam(":entwickler", $entwickler);
+                $stmt->bindParam(":releasedate", $releasedate);
+                $stmt->bindParam(":cover", $ziel);
+
+                $stmt->execute();
+                
+            } catch (PDOException $e) {
+                if (file_exists($ziel)) {
+                    unlink($ziel);
                 }
+                die("Das Insert Into ist falsch");
             }
-            }  
+        }
+    }  
 } else {
-    ?>
+?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css.css">
-    <title>Document</title>
-</head>
-<style>
-        body{
-            background-image: url('bilder/wp111.jpg');
-            
-            background-size: 100% 5%;
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Spiel melden</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #000;
             color: white;
         }
 
-        .grid-container{
-            margin-top: 100px;
-            margin-left: auto;
-            margin-right: auto;
-            width: 700px; 
-            height: 500px;
-            background: linear-gradient(0deg, #000, #333);
+        header {
+            width: 100%;
+            height: 120px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             position: relative;
-  
+            background: linear-gradient(0deg, #000, #333);
+            padding: 20px 40px;
+            border-bottom: 2px solid #0f0;
         }
 
-        .grid-container:before,
-        .grid-container:after {
+        header:before,
+        header:after {
             content: "";
             position: absolute;
-            background: linear-gradient(45deg, red, orange, yellow, 
-            green, blue, indigo, violet);
+            background: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet);
             z-index: -1;
             width: calc(100% + 4px);
-            height: calc(100% + 4px);  
+            height: calc(100% + 4px);
+            background-size: 500%;
             top: -2px;
             left: -2px;
-            background-size: 500%;
             animation: wandernderFarbverlauf 30s linear infinite;
         }
 
-        .header:after {
+        header:after {
             filter: blur(25px);
         }
 
         @keyframes wandernderFarbverlauf {
-            0%   { background-position: 0 0 }
-            50%  { background-position: 500% 0 }
+            0% { background-position: 0 0 }
+            50% { background-position: 500% 0 }
             100% { background-position: 0 0 }
         }
 
-        h2{
-            text-align: center;
-            font-size: 50px;
-            padding-top: 10px;
+        .nav-links {
+            display: flex;
+            gap: 30px;
         }
 
-        form {
-        max-width: 400px;
-        margin: 100px auto;
-        font-family: Arial, sans-serif;
-        margin-top: -10px;
-    }
+        .center-link {
+            color: #0f0;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            align-self: center;
+        }
 
-    .form-group {
-        margin-bottom: 20px;
-    }
+        .center-link:hover {
+            text-decoration: underline;
+        }
 
-    label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: bold;
-        color: white;
-    }
+        select {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
+            background-color: #222;
+            color: white;
+            cursor: pointer;
+        }
 
-    input[type="text"],
-    input[type="password"] {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        font-size: 16px;
-    }
+        /* Formularcontainer */
+        .form-container {
+            max-width: 700px;
+            margin: 60px auto 100px auto;
+            padding: 30px 40px;
+            border-radius: 16px;
+            background: linear-gradient(0deg, #000, #333);
+            border: 2px solid #0f0;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+            font-family: Arial, sans-serif;
+        }
 
-    button {
-        width: 105%;
-        padding: 12px;
-        background-color:rgb(87, 239, 92);
-        color: black;
-        font-weight: bolder;
-        border: none;
-        border-radius: 8px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        
-    }
+        .form-container h2 {
+            text-align: center;
+            color: #0f0;
+            margin-bottom: 40px;
+            font-size: 48px;
+            font-weight: 900;
+            text-shadow: 0 0 10px #0f0;
+        }
 
-    button:hover {
-        background-color:rgb(1, 147, 8);
-    }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: white;
+            font-size: 16px;
+        }
 
-    .ttmmjj{
-        padding: 12px;
-        border: none;
-        border-radius: 8px;
-        color: black;
+        input[type="text"],
+        input[type="date"],
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 25px;
+            border: none;
+            border-radius: 8px;
+            background-color: #111;
+            color: white;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
 
+        button {
+            width: 105%;
+            padding: 12px;
+            background-color: rgb(87, 239, 92);
+            color: black;
+            font-weight: bolder;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 15px;
+            display: block;
+            margin-left: -15px;
+        }
 
-    }
+        button:hover {
+            background-color: rgb(1, 147, 8);
+        }
     </style>
-
+</head>
 <body>
 
-<div class="grid-container" class="formgroup">
-    <h2>Gamespace - Spiele melden</h2>
-    <form enctype="multipart/form-data" action="<?php
-    echo($_SERVER['SCRIPT_NAME']);
-    ?>" method="post">
-
-        <label for="sname">Name:</label><br>
-        <input type="text" id="sname" name="sname" required><br><br>
-
-        
-        <label for="entwickler">Entwickler:</label><br>
-        <input type="text" id="entwickler" name="entwickler" required><br><br>
-       
-        <label for="releasedate">Release Date:</label><br>
-        <input class="ttmmjj" type="date" id="releasedate" name="releasedate" required><br><br>
-
-        <input type="file" id="cover" name="cover" required><br>
-        
-
-        <button type="submit" id="submit" name="submit">Spiel melden 
-        
-
-    </form>
+<header>
+    <div class="nav-links">
+        <a href="startseite.php" class="center-link">Gamespace-Startseite</a>
+        <a href="spielmelden.php" class="center-link" style="margin-left: 375px;">Gamespace-Spiele melden</a>
     </div>
+    <select name="konto" id="konto" onchange="window.location.href=this.value">
+        <option value="" disabled selected hidden>Konto</option>
+        <option value="registrieren.php">Registrieren</option>
+        <option value="login.php">Login</option>
+        <option value="logout.php">Logout</option>
+    </select>
+</header>
+
+<div class="form-container">
+    <h2>Gamespace - Spiele melden</h2>
+    <form enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER['SCRIPT_NAME']); ?>" method="post">
+
+        <label for="sname">Name:</label>
+        <input type="text" id="sname" name="sname" required />
+
+        <label for="entwickler">Entwickler:</label>
+        <input type="text" id="entwickler" name="entwickler" required />
+       
+        <label for="releasedate">Release Date:</label>
+        <input type="date" id="releasedate" name="releasedate" required />
+
+        <label for="cover">Cover Bild:</label>
+        <input type="file" id="cover" name="cover" required />
+
+        <button type="submit" id="submit" name="submit">Spiel melden</button>
+    </form>
+</div>
+
 </body>
 </html>
 
