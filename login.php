@@ -20,6 +20,7 @@ if (isset($_POST['submit'])) {
             if ($user) {
                 if (password_verify($password, $user['password'])) {
                     $_SESSION['bname'] = $bname;
+                    $_SESSION['user_id'] = $user['id'];
                     header('Location: startseite.php');
                     exit();
                 } else {
