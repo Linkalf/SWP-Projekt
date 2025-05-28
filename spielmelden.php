@@ -200,7 +200,7 @@ if (isset($_POST['submit'])) {
 <header>
     <div class="nav-links">
         <a href="startseite.php" class="center-link">Gamespace-Startseite</a>
-        <a href="spielmelden.php" class="center-link" style="margin-left: 375px;">Gamespace-Spiele melden</a>
+        <a href="liste.php" class="center-link" style="margin-left: 375px;">Gamespace-Spieleliste</a>
     </div>
     <select name="konto" id="konto" onchange="window.location.href=this.value">
         <option value="" disabled selected hidden>Konto</option>
