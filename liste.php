@@ -163,6 +163,10 @@ try {
         <h1 class="headertext">Gamespace-Spieleliste</h1>
     </div>
 
+    <div style="text-align: center; margin-bottom: 20px;">
+        <input type="text" id="searchInput" placeholder="Spiel suchen..." style="padding: 10px; width: 300px; border-radius: 5px; border: none; background-color: #222; color: white;">
+    </div>
+
 
     <?php
     /*if(isset($_SESSION ['sname'])){
@@ -253,6 +257,23 @@ try {
         });
 
     </script>
+
+    <script>
+    document.getElementById('searchInput').addEventListener('input', function () {
+        const query = this.value.toLowerCase();
+        const spiele = document.querySelectorAll('.spiel-eintrag');
+
+        spiele.forEach(spiel => {
+            const text = spiel.querySelector('.spiel-text').textContent.toLowerCase();
+            if (text.includes(query)) {
+                spiel.style.display = 'flex';
+            } else {
+                spiel.style.display = 'none';
+            }
+        });
+    });
+</script>
+
 
 
 </body>
