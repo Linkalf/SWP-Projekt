@@ -1,17 +1,17 @@
 <?php
 session_start();
 require_once("dbconnection.php");
-
+//überprüft ob die Formularfelder ausgefüllt sind
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['bname'];
     $password = $_POST['password'];
     $email = $_POST['email'];
     
-    // Password hashen
+    // Passwort hashen
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
     
     try {
-        // Überprüfen ob Benutzer bereits existiert
+            // Überprüfen ob Benutzer bereits existiert
         $check_sql = "SELECT * FROM user WHERE bname = ?";
         $check_stmt = $pdo->prepare($check_sql);
         $check_stmt->execute([$username]);

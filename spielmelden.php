@@ -1,22 +1,22 @@
 <?php
 require_once("appKonstanten.php");
-
+//überprüft ob der Submit-Button gedrückt wurde
 if (isset($_POST['submit'])) {
     
     if (!empty($_POST['sname']) && !empty($_POST['entwickler']) && !empty($_POST['releasedate'])) {
         echo ("<a href='startseite.php'>Zurück zur Hauptseite</a> <br>");
-
+        //überprüft ob die Formularfelder ausgefüllt sind
         $sname = htmlspecialchars($_POST['sname']);
         $entwickler = htmlspecialchars($_POST['entwickler']);
         $releasedate = htmlspecialchars($_POST['releasedate']);
-
+    
         $cover_name = $_FILES['cover']['name'];
         $cover_type = $_FILES['cover']['type'];
         $cover_size = $_FILES['cover']['size'];
         $cover_tmp_name = $_FILES['cover']['tmp_name'];
 
     }
-
+        //überprüft ob die Datei ein Bild ist und die Größe nicht größer als die maximale Dateigröße ist
         if (($cover_type == 'image/jpeg' || $cover_type == 'image/png' || $cover_type == 'image/gif') &&
             ($cover_size > 0 && $cover_size < MAXDATEIGROESSE)) {
 
@@ -26,7 +26,7 @@ if (isset($_POST['submit'])) {
 
                 //Datei wurde in den Zielordner am Webserver verschoben. Jetzt kann der Eintrag in die DB geschrieben werden
                 try {
-
+            
                     require_once("dbconnection.php");
         
                     $stmt = $pdo->prepare("INSERT INTO games (sname,entwickler,releasedate,cover) VALUES (:sname, :entwickler, :releasedate, :cover)");
@@ -38,7 +38,7 @@ if (isset($_POST['submit'])) {
 
 
                     $stmt->execute();
-                    
+                    //Eintrag in die DB geschrieben
                 } catch (PDOException $e) {
                     if (file_exists($ziel)) {
                         unlink($ziel);

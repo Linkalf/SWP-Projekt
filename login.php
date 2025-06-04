@@ -3,6 +3,7 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+//überprüft ob die Formularfelder ausgefüllt sind
 if (isset($_POST['submit'])) {
     if (!empty($_POST['bname']) && !empty($_POST['password'])) {
         $bname = htmlspecialchars($_POST['bname']);
@@ -10,12 +11,13 @@ if (isset($_POST['submit'])) {
         $password = htmlspecialchars($_POST['password']);
 
         try {
+            //verbindung zur Datenbank herstellen
             require_once('dbconnection.php');
 
             $stmt = $pdo->prepare("SELECT * FROM user WHERE bname = :bname");
             $stmt->bindParam(':bname', $bname);
             $stmt->execute();
-
+            //Datenbankabfrage ausführen
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
             if ($user) {
                 if (password_verify($password, $user['password'])) {
@@ -40,6 +42,7 @@ if (isset($_POST['submit'])) {
 
 <?php
 }?>
+    <!-- HTML-Code für die Login-Seite -->
     <!DOCTYPE html>
 <html lang="de">
 <head>
