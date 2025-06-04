@@ -106,11 +106,7 @@
 
 <header>
     <a href="liste.php" class="center-link">Gamespace-Spieleliste</a>
-
-        <a href="spielmelden.php" class="center-link" style="margin-left: -30px;">Gamespace-Spiele melden</a>
-
-    
-    
+    <a href="spielmelden.php" class="center-link" style="margin-left: -30px;">Gamespace-Spiele melden</a>    
     <select name="konto" id="konto" onchange="window.location.href=this.value">
         <option value="" disabled selected hidden >Konto</option>
         <option value="registrieren.php">Registrieren</option>

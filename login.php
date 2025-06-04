@@ -6,8 +6,7 @@ if (session_status() === PHP_SESSION_NONE) {
 //überprüft ob die Formularfelder ausgefüllt sind
 if (isset($_POST['submit'])) {
     if (!empty($_POST['bname']) && !empty($_POST['password'])) {
-        $bname = htmlspecialchars($_POST['bname']);
-        $bname = trim($bname);
+        $bname = htmlspecialchars(trim($_POST['bname']));
         $password = htmlspecialchars($_POST['password']);
 
         try {
@@ -22,21 +21,22 @@ if (isset($_POST['submit'])) {
             if ($user) {
                 if (password_verify($password, $user['password'])) {
                     $_SESSION['bname'] = $bname;
+                    $_SESSION['user_id'] = $user['id'];
                     header('Location: startseite.php');
                     exit();
                 } else {
-                    echo('Falsches Passwort');
+                    $error = "Falsches Passwort";
                 }
             } else {
-                echo('bname nicht gefunden');
+                $error = "Benutzername nicht gefunden";
             }
         } catch (PDOException $e) {
-            die('Fehler beim Anmelden'. $e->getMessage());
+            $error = "Fehler beim Anmelden: " . $e->getMessage();
         }
     } else {
-        echo('Bitte alle Felder ausfüllen');
+        $error = "Bitte alle Felder ausfüllen";
     }
-} else {
+}
 ?>
 
 
@@ -46,132 +46,222 @@ if (isset($_POST['submit'])) {
     <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Login</title>
-
     <style>
-        body{
-            background-image: url('bilder/wp111.jpg');
-            
-            background-size: 100% 5%;
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #000;
             color: white;
         }
 
-        .grid-container{
-            margin-top: 100px;
-            margin-left: auto;
-            margin-right: auto;
-            width: 700px; 
-            height: 500px;
-            background: linear-gradient(0deg, #000, #333);
+        header {
+            width: 100%;
+            height: 120px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             position: relative;
-  
+            background: linear-gradient(0deg, #000, #333);
+            padding: 20px 40px;
+            border-bottom: 2px solid #0f0;
         }
 
-        .grid-container:before,
-        .grid-container:after {
+        header:before,
+        header:after {
             content: "";
             position: absolute;
-            background: linear-gradient(45deg, red, orange, yellow, 
-            green, blue, indigo, violet);
+            background: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet);
             z-index: -1;
             width: calc(100% + 4px);
-            height: calc(100% + 4px);  
+            height: calc(100% + 4px);
+            background-size: 500%;
             top: -2px;
             left: -2px;
-            background-size: 500%;
             animation: wandernderFarbverlauf 30s linear infinite;
         }
 
-        .header:after {
+        header:after {
             filter: blur(25px);
         }
 
         @keyframes wandernderFarbverlauf {
-            0%   { background-position: 0 0 }
-            50%  { background-position: 500% 0 }
+            0% { background-position: 0 0 }
+            50% { background-position: 500% 0 }
             100% { background-position: 0 0 }
         }
 
-        h2{
-            text-align: center;
-            font-size: 80px;
-            padding-top: 10px;
+        .nav-links {
+            display: flex;
+            gap: 30px;
         }
 
-        form {
-        max-width: 400px;
-        margin: 100px auto;
-        font-family: Arial, sans-serif;
-        margin-top: -10px;
-    }
+        .center-link {
+            color: #0f0;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+        }
 
-    .form-group {
-        margin-bottom: 20px;
-    }
+        .center-link:hover {
+            text-decoration: underline;
+        }
 
-    label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: bold;
-        color: white;
-    }
+        .spiel-melden {
+            margin-left: 375px;
+        }
 
-    input[type="text"],
-    input[type="password"] {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        font-size: 16px;
-    }
+        select {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
+            background-color: #222;
+            color: white;
+        }
 
-    button {
-        width: 105%;
-        padding: 12px;
-        background-color:rgb(87, 239, 92);
-        color: black;
-        font-weight: bolder;
-        border: none;
-        border-radius: 8px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        
-    }
+        .login-form {
+            max-width: 320px;
+            margin: 80px auto;
+            padding: 25px 30px;
+            border-radius: 16px;
+            background: linear-gradient(0deg, #000, #333);
+            border: 2px solid #0f0;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+        }
 
-    button:hover {
-        background-color:rgb(1, 147, 8);
-    }
+        .login-form h2 {
+            text-align: center;
+            color: #0f0;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: none;
+            background-color: #111;
+            color: white;
+            font-size: 14px;
+        }
+
+        input[type="submit"] {
+            background-color: #0f0;
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #00cc00;
+        }
+
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 0;
+            text-align: center;
+        }
+
+        p a {
+            color: #0f0;
+            text-decoration: none;
+        }
+
+        p a:hover {
+            text-decoration: underline;
+        }
+
+        .password-container {
+            display: flex;
+            align-items: center;
+            background-color: #111;
+            border: none;
+            border-radius: 8px;
+            padding: 0 10px;
+            margin-bottom: 20px;
+        }
+
+        .password-container input[type="password"],
+        .password-container input[type="text"] {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 14px;
+            padding: 10px 0;
+            outline: none;
+        }
+
+        .eye-button {
+            background: none;
+            border: none;
+            color: #0f0;
+            font-size: 18px;
+            cursor: pointer;
+            margin-left: 8px;
+        }
     </style>
-
-    
-
 </head>
 <body>
-    <div class="grid-container">
-        <h2>Login</h2>
-        <?php if (isset($error)): ?>
-            <div class="error"><?php echo htmlspecialchars($error); ?></div>
-        <?php endif; ?>
-        <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-            <div class="form-group">
-                <label for="bname">username:</label>
-                <input type="text" id="username" name="bname" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Passwort:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <div class="form-group">
-                <button type="submit" name="submit" id="submit">Anmelden</button>
-            </div>
-        </form>
+
+<header>
+    <div class="nav-links">
+        <a href="startseite.php" class="center-link">Gamespace-Startseite</a>
+        <a href="spielmelden.php" class="center-link spiel-melden">Gamespace-Spiele melden</a>
     </div>
+    <select name="konto" id="konto" onchange="window.location.href=this.value">
+        <option value="" disabled selected hidden>Konto</option>
+        <option value="registrieren.php">Registrieren</option>
+        <option value="login.php">Login</option>
+        <option value="logout.php">Logout</option>
+    </select>
+</header>
+
+<div class="login-form">
+    <h2>Login</h2>
+
+    <?php if (isset($error)) echo "<div class='error-message'>$error</div>"; ?>
+
+    <form method="POST" action="">
+        <label for="bname">Benutzername:</label>
+        <input type="text" id="bname" name="bname" required />
+
+        <label for="password">Passwort:</label>
+        <div class="password-container">
+            <input type="password" id="password" name="password" required />
+            <button type="button" onclick="togglePassword()" class="eye-button">👁️</button>
+        </div>
+
+        <input type="submit" name="submit" value="Anmelden" />
+    </form>
+
+    <p>Noch kein Konto? <a href="registrieren.php">Registrieren</a></p>
+</div>
+
+<script>
+function togglePassword() {
+    const pw = document.getElementById("password");
+    pw.type = pw.type === "password" ? "text" : "password";
+}
+</script>
+
 </body>
 </html>
-
-
-
-
