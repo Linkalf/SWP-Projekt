@@ -23,11 +23,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position:relative;
+            position: relative;
             background: linear-gradient(0deg, #000, #333);
             padding: 20px 40px;
             border-bottom: 2px solid #0f0;
             margin-left: -20px;
+            overflow-x: hidden;
+            overflow-y: hidden;
         }
 
         header:before,
@@ -43,6 +45,7 @@
             top: -2px;
             left: -2px;
             animation: wandernderFarbverlauf 30s linear infinite;
+
         }
 
         header:after {

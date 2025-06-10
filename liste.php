@@ -45,6 +45,8 @@ try {
             padding: 20px 40px;
             border-bottom: 2px solid #0f0;
             margin-left: -20px;
+            overflow-x: hidden;
+            overflow-y: hidden;
         }
 
         header:before,

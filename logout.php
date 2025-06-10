@@ -5,4 +5,5 @@ session_destroy();
 header("Location: login.php");
 //Beendet das Skript
 exit();
+}
 ?>

@@ -40,8 +40,7 @@ if (isset($_POST['submit'])) {
 ?>
 
 
-<?php
-}?>
+
     <!-- HTML-Code für die Login-Seite -->
     <!DOCTYPE html>
 <html lang="de">
@@ -73,6 +72,7 @@ if (isset($_POST['submit'])) {
             background: linear-gradient(0deg, #000, #333);
             padding: 20px 40px;
             border-bottom: 2px solid #0f0;
+            
         }
 
         header:before,
