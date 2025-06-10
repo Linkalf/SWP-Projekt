@@ -1,5 +1,5 @@
 <?php
-
+    session_start();
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -119,7 +119,13 @@
 </header>
 
 <div class="site">
-    <h1>Gamespace - Startseite</h1>
+        <?php 
+        if(isset($_SESSION ['bname'])){
+            echo '<h1>Willkommen, ' . $_SESSION['bname']. '!</h1>';
+        }else {
+            echo '<h1>Willkommen!</h1>';
+        }
+        ?>
 </div>
 
 <div class="topagmesheader" style="text-align: center;"> neue Spiele für 2025</div>
